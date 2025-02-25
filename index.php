@@ -20,14 +20,13 @@ $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
 if (!isset($_SERVER['REQUEST_METHOD'])) {
     $_SERVER['REQUEST_METHOD'] = 'GET';
 }
-
-$route->prefix('ASM')->group(function(){
-    $route->prefix('user')->group(function(){
-    $router->get('/', function() use ($ blade) {
-        echo $blade->run('home', ['name' => 'John']);
-    });
-})
+$router->get('/', function () use ($blade) {
+    echo "<h1>Trang chủ</h1>";
+});
 // Định tuyến trang chủ
+$router->get('/user', function () use ($blade) {
+    echo $blade->run('home', ['name' => 'John']);
+});
 
 
 $router->run();
