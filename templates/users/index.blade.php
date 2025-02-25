@@ -22,17 +22,37 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="card w-100">
-                        <h5 class="card-header">Danh sách tài khoản</h5>
+                        <div class="card-header flex">
+                            <form method="GET" action="/ASM/user" class="mb-3">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <input type="text" name="keyword" class="form-control"
+                                            placeholder="Tìm theo tên hoặc email" value="{{ $keyword }}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select name="role" class="form-control">
+                                            <option value="">-- Chọn vai trò --</option>
+                                            <option value="admin" {{ $role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                            <option value="user" {{ $role == 'user' ? 'selected' : '' }}>User</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                        <a href="/ASM/user" class="btn btn-warning">Reset</a>
+                                    </div>
+                                </div>
+                            </form>
+                            <a href="/ASM/user/create" class="btn btn-primary flex justify-content-end">Tạo mới</a>
+                        </d>
+
                         <div class="card-body p-0">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class="bg-light">
                                         <tr class="border-0">
                                             <th class="border-0">#</th>
-                                            <th class="border-0">Hình ảnh</th>
                                             <th class="border-0">Tên người dùng</th>
                                             <th class="border-0">Email</th>
                                             <th class="border-0">Vai trò</th>
@@ -44,12 +64,6 @@
                                         @foreach ($users as $index => $user)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
-                                                <td>
-                                                    <div class="m-r-10">
-                                                        <img src="{{ $baseUrl }}/admins/images/user-default.jpg"
-                                                            alt="user" class="rounded" width="45">
-                                                    </div>
-                                                </td>
                                                 <td>{{ $user['name'] }}</td>
                                                 <td>{{ $user['email'] }}</td>
                                                 <td>
@@ -99,7 +113,5 @@
                 </div>
             </div>
         </div>
-        <!-- End Footer -->
-
     </div>
 @endsection

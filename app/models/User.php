@@ -24,16 +24,6 @@ class User
         }
     }
 
-    // ✅ Lấy thông tin một người dùng theo ID
-    public function getUserById($id)
-    {
-        try {
-            return $this->db->fetchAssociative("SELECT * FROM users WHERE id = ?", [$id]);
-        } catch (Exception $e) {
-            return ['error' => $e->getMessage()];
-        }
-    }
-
     // ✅ Thêm người dùng mới
     public function createUser($name, $email, $password, $role = 'user')
     {
@@ -50,19 +40,7 @@ class User
         }
     }
 
-    // ✅ Cập nhật thông tin người dùng
-    public function updateUser($id, $name, $email, $role)
-    {
-        try {
-            return $this->db->update('users', [
-                'name' => $name,
-                'email' => $email,
-                'role' => $role
-            ], ['id' => $id]);
-        } catch (Exception $e) {
-            return ['error' => $e->getMessage()];
-        }
-    }
+
 
     // ✅ Xóa người dùng theo ID
     public function deleteUser($id)
@@ -73,4 +51,55 @@ class User
             return ['error' => $e->getMessage()];
         }
     }
+
+    public function searchUsers($keyword = '', $role = '')
+    {
+        try {
+            $sql = "SELECT * FROM users WHERE 1=1";
+            $params = [];
+
+            if (!empty($keyword)) {
+                $sql .= " AND (name LIKE :keyword OR email LIKE :keyword)";
+                $params['keyword'] = "%$keyword%";
+            }
+
+            if (!empty($role)) {
+                $sql .= " AND role = :role";
+                $params['role'] = $role;
+            }
+
+            return $this->db->executeQuery($sql, $params)->fetchAllAssociative();
+        } catch (Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    public function getUserById($id)
+{
+    try {
+        return $this->db->fetchAssociative("SELECT * FROM users WHERE id = ?", [$id]);
+    } catch (Exception $e) {
+        return ['error' => $e->getMessage()];
+    }
+}
+
+public function updateUser($id, $name, $email, $password = null, $role)
+{
+    try {
+        $updateData = [
+            'name' => $name,
+            'email' => $email,
+            'role' => $role
+        ];
+
+        if (!empty($password)) {
+            $updateData['password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
+
+        return $this->db->update('users', $updateData, ['id' => $id]);
+    } catch (Exception $e) {
+        return ['error' => $e->getMessage()];
+    }
+}
+
 }

@@ -6,6 +6,7 @@ use Dotenv\Dotenv;
 use App\Models\User;
 use Bramus\Router\Router;
 use eftec\bladeone\BladeOne;
+use App\Controllers\UserController;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -23,11 +24,30 @@ if (!isset($_SERVER['REQUEST_METHOD'])) {
 }
 // Định tuyến trang chủ
 $router->get('/ASM/user', function () use ($blade) {
-    $userModel = new User(); // Khởi tạo model User
-    $users = $userModel->getAllUsers(); // Gọi function lấy danh sách người dùng
+    $controller = new UserController($blade);
+    $controller->index();
+});
+$router->get('/ASM/user/create', function () use ($blade) {
+    $controller = new UserController($blade);
+    $controller->create();
+});
 
-    // Render view users.index.blade.php và truyền danh sách user vào
-    echo $blade->run('users.index', ['users' => $users]);
+$router->post('/ASM/user/store', function () use ($blade) {
+    $controller = new UserController($blade);
+    $controller->store();
+});
+$router->get('/ASM/user/edit/(\d+)', function ($id) use ($blade) {
+    $controller = new UserController($blade);
+    $controller->edit($id);
+});
+
+$router->post('/ASM/user/update/(\d+)', function ($id) use ($blade) {
+    $controller = new UserController($blade);
+    $controller->update($id);
+});
+$router->get('/ASM/user/delete/(\d+)', function($id) use ($blade) {
+    $controller = new UserController($blade);
+    $controller->delete($id);
 });
 
 
