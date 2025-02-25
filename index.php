@@ -29,6 +29,10 @@ if (!isset($_SERVER['REQUEST_METHOD'])) {
 $router->before('GET|POST', '/ASM/.*', function () {
     AuthMiddleware::handle();
 });
+$router->get('/', function () {
+    header("Location: /ASM/user");
+    exit;
+});
 $router->get('/ASM/user', function () use ($blade) {
     $controller = new UserController($blade);
     $controller->index();
