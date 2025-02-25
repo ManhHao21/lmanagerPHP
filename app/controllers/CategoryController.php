@@ -19,7 +19,9 @@ class CategoryController
     // ✅ Hiển thị danh sách danh mục
     public function index()
     {
-        $categories = $this->categoryModel->getAllCategories();
+        
+        $keyword = $_GET['keyword'] ?? '';
+        $categories = $this->categoryModel->getAllCategories($keyword);
         echo $this->blade->run('category.index', ['categories' => $categories]);
     }
 

@@ -16,14 +16,16 @@ class Category
     }
 
     // ✅ Lấy tất cả danh mục
-    public function getAllCategories()
-    {
-        try {
-            return $this->db->fetchAllAssociative("SELECT * FROM categories ORDER BY created_at DESC");
-        } catch (Exception $e) {
-            return ['error' => $e->getMessage()];
-        }
+    public function getAllCategories($keyword = '')
+{
+    try {
+        $sql = "SELECT * FROM categories WHERE name LIKE ? ORDER BY created_at DESC";
+        return $this->db->fetchAllAssociative($sql, ["%$keyword%"]);
+    } catch (Exception $e) {
+        return ['error' => $e->getMessage()];
     }
+}
+
 
     // ✅ Lấy danh mục theo ID
     public function getCategoryById($id)
