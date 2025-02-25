@@ -1,4 +1,4 @@
 @extends('layouts.layouts')
-@section('content')
+@section('contents')
     @include('layouts.content')
 @endsection

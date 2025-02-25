@@ -3,6 +3,7 @@ require_once './vendor/autoload.php';
 require_once './app/helpers/index.php';
 
 use Dotenv\Dotenv;
+use App\Models\User;
 use Bramus\Router\Router;
 use eftec\bladeone\BladeOne;
 
@@ -20,12 +21,13 @@ $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
 if (!isset($_SERVER['REQUEST_METHOD'])) {
     $_SERVER['REQUEST_METHOD'] = 'GET';
 }
-$router->get('/', function () use ($blade) {
-    echo "<h1>Trang chủ</h1>";
-});
 // Định tuyến trang chủ
-$router->get('/user', function () use ($blade) {
-    echo $blade->run('home', ['name' => 'John']);
+$router->get('/ASM/user', function () use ($blade) {
+    $userModel = new User(); // Khởi tạo model User
+    $users = $userModel->getAllUsers(); // Gọi function lấy danh sách người dùng
+
+    // Render view users.index.blade.php và truyền danh sách user vào
+    echo $blade->run('users.index', ['users' => $users]);
 });
 
 
