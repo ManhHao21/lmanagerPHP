@@ -16,7 +16,7 @@ $dotenv->load();
 $router = new Router();
 
 // Cấu hình BladeOne với đường dẫn đúng
-$views = __DIR__ . '/templates'; // Kiểm tra xem có đúng vị trí không
+$views = __DIR__ . '/view'; // Kiểm tra xem có đúng vị trí không
 $cache = __DIR__ . '/cache';
 $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
 $authController = new AuthController($blade);
