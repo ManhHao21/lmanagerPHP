@@ -25,26 +25,26 @@ class AuthController
     public function login()
     {
         session_start();
-
+       
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
-
+        print_r($password);
         if (empty($email) || empty($password)) {
-            echo $this->blade->run('auth.login', ['error' => 'Vui lòng nhập đầy đủ thông tin']);
+            echo $this->blade->run('login', ['errors' => ['Vui lòng nhập thông tin đầy đủ!']]);
+
             return;
         }
 
         // Kiểm tra user có tồn tại không
         $user = $this->userModel->getUserByEmail($email);
         if (!$user) {
-            echo $this->blade->run('auth.login', ['error' => 'Email hoặc mật khẩu không đúng']);
+            echo $this->blade->run('login', ['errors' => ['Bạn không có quyền truy cập']]);
             return;
         }
 
         // Kiểm tra mật khẩu (dùng MD5 hoặc password_verify nếu dùng password_hash)
-        $salt = "random_salt_123"; // Nếu dùng MD5
-        if ($user['password'] !== md5($password . $salt)) {
-            echo $this->blade->run('auth.login', ['error' => 'Email hoặc mật khẩu không đúng']);
+        if ($user['password'] !== md5($password)) {
+            echo $this->blade->run('login', ['errors' => ['Email hoặc mật khẩu không đúng']]);
             return;
         }
 

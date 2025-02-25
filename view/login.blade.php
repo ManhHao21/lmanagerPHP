@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
- 
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -12,19 +12,19 @@
     <link rel="stylesheet" href="{{assets('admins')}}/libs/css/style.css">
     <link rel="stylesheet" href="{{assets('admins')}}/vendor/fonts/fontawesome/css/fontawesome-all.css">
     <style>
-    html,
-    body {
-        height: 100%;
-    }
+        html,
+        body {
+            height: 100%;
+        }
 
-    body {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-align: center;
-        align-items: center;
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
+        body {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
     </style>
 </head>
 
@@ -36,12 +36,22 @@
         <div class="card ">
             <div class="card-header text-center"><a href="../index.html"><img class="logo-img" src="{{assets('admins')}}/images/logo.png" alt="logo"></a><span class="splash-description">Please enter your user information.</span></div>
             <div class="card-body">
-                <form>
+
+                @if (isset($errors))
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+                <form action="/login" method="post">
                     <div class="form-group">
-                        <input class="form-control form-control-lg" id="username" type="text" placeholder="Username" autocomplete="off">
+                        <input class="form-control form-control-lg" id="Email" type="text" placeholder="Email" name="email" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <input class="form-control form-control-lg" id="password" type="password" placeholder="Password">
+                        <input class="form-control form-control-lg" id="password" type="password" placeholder="Password" name="password">
                     </div>
                     <div class="form-group">
                         <label class="custom-control custom-checkbox">
@@ -53,14 +63,15 @@
             </div>
             <div class="card-footer bg-white p-0  ">
                 <div class="card-footer-item card-footer-item-bordered">
-                    <a href="#" class="footer-link">Create An Account</a></div>
+                    <a href="#" class="footer-link">Create An Account</a>
+                </div>
                 <div class="card-footer-item card-footer-item-bordered">
                     <a href="#" class="footer-link">Forgot Password</a>
                 </div>
             </div>
         </div>
     </div>
-  
+
     <!-- ============================================================== -->
     <!-- end login page  -->
     <!-- ============================================================== -->
@@ -68,5 +79,5 @@
     <script src="{{assets('admins')}}/vendor/jquery/jquery-3.3.1.min.js"></script>
     <script src="{{assets('admins')}}/vendor/bootstrap/js/bootstrap.bundle.js"></script>
 </body>
- 
+
 </html>

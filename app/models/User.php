@@ -28,7 +28,7 @@ class User
     public function createUser($name, $email, $password, $role = 'user')
     {
         try {
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $hashedPassword = md5($password);
             return $this->db->insert('users', [
                 'name' => $name,
                 'email' => $email,
@@ -93,7 +93,7 @@ public function updateUser($id, $name, $email, $password = null, $role = 'admin'
         ];
 
         if (!empty($password)) {
-            $updateData['password'] = password_hash($password, PASSWORD_DEFAULT);
+            $updateData['password'] = md5($password);
         }
 
         return $this->db->update('users', $updateData, ['id' => $id]);
@@ -105,7 +105,7 @@ public function updateUser($id, $name, $email, $password = null, $role = 'admin'
 public function getUserByEmail($email)
 {
     try {
-        return $this->db->fetchAssociative("SELECT * FROM users WHERE email = ?", [$email]);
+        return $this->db->fetchAssociative("SELECT * FROM users WHERE email = ? AND role = ?", [$email, 'admin']);
     } catch (Exception $e) {
         return null;
     }
