@@ -83,7 +83,7 @@ class User
     }
 }
 
-public function updateUser($id, $name, $email, $password = null, $role)
+public function updateUser($id, $name, $email, $password = null, $role = 'admin')
 {
     try {
         $updateData = [
@@ -101,5 +101,15 @@ public function updateUser($id, $name, $email, $password = null, $role)
         return ['error' => $e->getMessage()];
     }
 }
+
+public function getUserByEmail($email)
+{
+    try {
+        return $this->db->fetchAssociative("SELECT * FROM users WHERE email = ?", [$email]);
+    } catch (Exception $e) {
+        return null;
+    }
+}
+
 
 }
