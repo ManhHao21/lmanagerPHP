@@ -13,7 +13,7 @@
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="/" class="breadcrumb-link">Trang chủ</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">
-                                            <a href="/ASM/category" class="breadcrumb-link">Quản lý danh mục</a>
+                                            <a href="/admin/category" class="breadcrumb-link">Quản lý danh mục</a>
                                         </li>
                                     </ol>
                                 </nav>
@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="card w-100">
                         <div class="card-header flex">
-                            <form method="GET" action="/ASM/category" class="mb-3">
+                            <form method="GET" action="/admin/category" class="mb-3">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <input type="text" name="keyword" class="form-control"
@@ -33,11 +33,11 @@
                                     </div>
                                     <div class="col-md-3">
                                         <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                                        <a href="/ASM/category" class="btn btn-warning">Reset</a>
+                                        <a href="/admin/category" class="btn btn-warning">Reset</a>
                                     </div>
                                 </div>
                             </form>
-                            <a href="/ASM/category/create" class="btn btn-primary flex justify-content-end">Thêm danh mục</a>
+                            <a href="/admin/category/create" class="btn btn-primary flex justify-content-end">Thêm danh mục</a>
                         </div>
 
                         <div class="card-body p-0">
@@ -60,9 +60,9 @@
                                                 <td>{{ date('d-m-Y', strtotime($category['created_at'])) }}</td>
                                                 <td>{{ date('d-m-Y', strtotime($category['updated_at'])) }}</td>
                                                 <td>
-                                                    <a href="/ASM/category/edit/{{ $category['id'] }}"
+                                                    <a href="/admin/category/edit/{{ $category['id'] }}"
                                                         class="btn btn-warning btn-sm">Sửa</a>
-                                                    <a href="/ASM/category/delete/{{ $category['id'] }}"
+                                                    <a href="/admin/category/delete/{{ $category['id'] }}"
                                                         class="btn btn-danger btn-sm"
                                                         onclick="return confirm('Bạn có chắc muốn xóa danh mục này?')">Xóa</a>
                                                 </td>

@@ -21,7 +21,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="/ASM/user/update/{{ $user['id'] }}">
+                    <form method="POST" action="/admin/user/update/{{ $user['id'] }}">
                         <div class="mb-3">
                             <label class="form-label">Tên người dùng:</label>
                             <input type="text" name="name" class="form-control" value="{{ $user['name'] }}" required>
@@ -47,7 +47,7 @@
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success">Cập nhật</button>
-                            <a href="/ASM/user" class="btn btn-secondary">Quay lại</a>
+                            <a href="/admin/user" class="btn btn-secondary">Quay lại</a>
                         </div>
                     </form>
                 </div>

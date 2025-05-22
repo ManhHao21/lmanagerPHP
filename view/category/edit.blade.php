@@ -21,7 +21,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="/ASM/category/update/{{ $category['id'] }}">
+                    <form method="POST" action="/admin/category/update/{{ $category['id'] }}">
                         <div class="mb-3">
                             <label class="form-label">Tên danh mục:</label>
                             <input type="text" name="name" class="form-control" value="{{ $category['name'] }}" required>
@@ -29,7 +29,7 @@
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success">Cập nhật</button>
-                            <a href="/ASM/category" class="btn btn-secondary">Quay lại</a>
+                            <a href="/admin/category" class="btn btn-secondary">Quay lại</a>
                         </div>
                     </form>
                 </div>

@@ -64,7 +64,7 @@ class CategoryController
         if (isset($result['error'])) {
             echo $this->blade->run('category.create', ['error' => $result['error']]);
         } else {
-            header("Location: /ASM/category");
+            header("Location: /admin/category");
             exit;
         }
     }
@@ -115,7 +115,7 @@ class CategoryController
                 'error' => $result['error']
             ]);
         } else {
-            header("Location: /ASM/category");
+            header("Location: /admin/category");
             exit;
         }
     }
@@ -135,7 +135,7 @@ class CategoryController
         if (isset($result['error'])) {
             echo "Lỗi: " . $result['error'];
         } else {
-            header("Location: /ASM/category");
+            header("Location: /admin/category");
             exit;
         }
     }

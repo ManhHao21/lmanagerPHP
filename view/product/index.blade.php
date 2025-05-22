@@ -13,7 +13,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="/" class="breadcrumb-link">Trang chủ</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        <a href="/ASM/product" class="breadcrumb-link">Quản lý sản phẩm</a>
+                                        <a href="/admin/product" class="breadcrumb-link">Quản lý sản phẩm</a>
                                     </li>
                                 </ol>
                             </nav>
@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="card w-100">
                     <div class="card-header flex">
-                        <form method="GET" action="/ASM/product" class="mb-3">
+                        <form method="GET" action="/admin/product" class="mb-3">
                             <div class="row">
                                 <div class="col-md-3">
                                     <input type="text" name="keyword" class="form-control"
@@ -43,11 +43,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                                    <a href="/ASM/product" class="btn btn-warning">Reset</a>
+                                    <a href="/admin/product" class="btn btn-warning">Reset</a>
                                 </div>
                             </div>
                         </form>
-                        <a href="/ASM/product/create" class="btn btn-primary flex justify-content-end">Thêm sản phẩm</a>
+                        <a href="/admin/product/create" class="btn btn-primary flex justify-content-end">Thêm sản phẩm</a>
                     </div>
 
                     <div class="card-body p-0">
@@ -78,9 +78,9 @@
                                         <td>{{ number_format($product['price'], 0, ',', '.') }} VND</td>
                                         <td>{{ date('d-m-Y', strtotime($product['created_at'])) }}</td>
                                         <td>
-                                            <a href="/ASM/product/edit/{{ $product['id'] }}"
+                                            <a href="/admin/product/edit/{{ $product['id'] }}"
                                                 class="btn btn-warning btn-sm">Sửa</a>
-                                            <a href="/ASM/product/delete/{{ $product['id'] }}"
+                                            <a href="/admin/product/delete/{{ $product['id'] }}"
                                                 class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">Xóa</a>
                                         </td>

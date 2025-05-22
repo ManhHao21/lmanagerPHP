@@ -53,7 +53,7 @@ class AuthController
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['user_role'] = $user['role'];
 
-        header("Location: /ASM/user"); // Chuyển hướng về trang quản lý user
+        header("Location: /admin/user"); // Chuyển hướng về trang quản lý user
         exit;
     }
 

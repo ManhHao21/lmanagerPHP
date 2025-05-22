@@ -113,7 +113,7 @@ class ProductController
         if (isset($result['error'])) {
             echo "Lỗi: " . $result['error'];
         } else {
-            header("Location: /ASM/product");
+            header("Location: /admin/product");
         }
     }
 
@@ -127,7 +127,7 @@ class ProductController
             $_SESSION['success'] = "Xóa sản phẩm thành công!";
         }
 
-        header("Location: /ASM/product");
+        header("Location: /admin/product");
         exit;
     }
 
@@ -142,7 +142,7 @@ class ProductController
         // Kiểm tra nếu không tìm thấy sản phẩm
         if (!$product) {
             $_SESSION['error'] = "Sản phẩm không tồn tại.";
-            header("Location: /ASM/product");
+            header("Location: /admin/product");
             exit;
         }
 
@@ -163,7 +163,7 @@ class ProductController
             $currentProduct = $this->productModel->getProductById($id);
             if (!$currentProduct) {
                 $_SESSION['error'] = "Sản phẩm không tồn tại!";
-                header("Location: /ASM/product");
+                header("Location: /admin/product");
                 exit;
             }
 
@@ -184,7 +184,7 @@ class ProductController
                 $_SESSION['error'] = $result['message'] ?? "Cập nhật sản phẩm thất bại!";
             }
 
-            header("Location: /ASM/product");
+            header("Location: /admin/product");
             exit;
         }
     }

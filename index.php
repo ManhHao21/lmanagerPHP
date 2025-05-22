@@ -28,36 +28,36 @@ if (!isset($_SERVER['REQUEST_METHOD'])) {
     $_SERVER['REQUEST_METHOD'] = 'GET';
 }
 // Định tuyến trang chủ
-$router->before('GET|POST', '/ASM/.*', function () {
+$router->before('GET|POST', '/admin/.*', function () {
     AuthMiddleware::handle();
 });
 $router->get('/', function () {
-    header("Location: /ASM/user");
+    header("Location: /admin/user");
     exit;
 });
-$router->get('/ASM/user', function () use ($blade) {
+$router->get('/admin/user', function () use ($blade) {
     $controller = new UserController($blade);
     $controller->index();
 });
-$router->get('/ASM/user/create', function () use ($blade) {
+$router->get('/admin/user/create', function () use ($blade) {
     $controller = new UserController($blade);
     $controller->create();
 });
 
-$router->post('/ASM/user/store', function () use ($blade) {
+$router->post('/admin/user/store', function () use ($blade) {
     $controller = new UserController($blade);
     $controller->store();
 });
-$router->get('/ASM/user/edit/(\d+)', function ($id) use ($blade) {
+$router->get('/admin/user/edit/(\d+)', function ($id) use ($blade) {
     $controller = new UserController($blade);
     $controller->edit($id);
 });
 
-$router->post('/ASM/user/update/(\d+)', function ($id) use ($blade) {
+$router->post('/admin/user/update/(\d+)', function ($id) use ($blade) {
     $controller = new UserController($blade);
     $controller->update($id);
 });
-$router->get('/ASM/user/delete/(\d+)', function($id) use ($blade) {
+$router->get('/admin/user/delete/(\d+)', function($id) use ($blade) {
     $controller = new UserController($blade);
     $controller->delete($id);
 });
@@ -78,61 +78,61 @@ $router->get('/logout', function () use ($authController) {
 });
 
 // Thêm sản danh mục sản phẩm
-$router->get('/ASM/category', function () use ($blade) {
+$router->get('/admin/category', function () use ($blade) {
     $controller = new CategoryController($blade);
     $controller->index();
 });
-$router->get('/ASM/category/create', function () use ($blade) {
+$router->get('/admin/category/create', function () use ($blade) {
     $controller = new CategoryController($blade);
     $controller->create();
 });
 
-$router->post('/ASM/category/store', function () use ($blade) {
+$router->post('/admin/category/store', function () use ($blade) {
     $controller = new CategoryController($blade);
     $controller->store();
 });
-$router->get('/ASM/category/edit/(\d+)', function ($id) use ($blade) {
+$router->get('/admin/category/edit/(\d+)', function ($id) use ($blade) {
     $controller = new CategoryController($blade);
     $controller->edit($id);
 });
 
-$router->post('/ASM/category/update/(\d+)', function ($id) use ($blade) {
+$router->post('/admin/category/update/(\d+)', function ($id) use ($blade) {
     $controller = new CategoryController($blade);
     $controller->update($id);
 });
-$router->get('/ASM/category/delete/(\d+)', function($id) use ($blade) {
+$router->get('/admin/category/delete/(\d+)', function($id) use ($blade) {
     $controller = new CategoryController($blade);
     $controller->delete($id);
 });
 
 // danh sách sản phẩm
-$router->get('/ASM/product', function () use ($blade) {
+$router->get('/admin/product', function () use ($blade) {
     $controller = new ProductController($blade);
     $controller->index();
 });
 
 // tạo sản phẩm
-$router->get('/ASM/product/create', function () use ($blade) {
+$router->get('/admin/product/create', function () use ($blade) {
     $controller = new ProductController($blade);
     $controller->create();
 });
 
 // Lưu sản phẩm
-$router->post('/ASM/product/store', function () use ($blade) {
+$router->post('/admin/product/store', function () use ($blade) {
     $controller = new ProductController($blade);
     $controller->store();
 });
 
-$router->get('/ASM/product/edit/(\d+)', function ($id) use ($blade) {
+$router->get('/admin/product/edit/(\d+)', function ($id) use ($blade) {
     $controller = new ProductController($blade);
     $controller->edit($id);
 });
 
-$router->post('/ASM/product/update/(\d+)', function ($id) use ($blade) {
+$router->post('/admin/product/update/(\d+)', function ($id) use ($blade) {
     $controller = new ProductController($blade);
     $controller->update($id);
 });
-$router->get('/ASM/product/delete/(\d+)', function($id) use ($blade) {
+$router->get('/admin/product/delete/(\d+)', function($id) use ($blade) {
     $controller = new ProductController($blade);
     $controller->delete($id);
 });

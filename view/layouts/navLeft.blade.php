@@ -26,10 +26,10 @@
                         <div id="submenu-2" class="collapse submenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/ASM/category">Danh sách</a>
+                                    <a class="nav-link" href="/admin/category">Danh sách</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/ASM/category/create">Thêm</a>
+                                    <a class="nav-link" href="/admin/category/create">Thêm</a>
                                 </li>
                             </ul>
                         </div>
@@ -41,10 +41,10 @@
                         <div id="submenu-3" class="collapse submenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/ASM/product">Danh sách</a>
+                                    <a class="nav-link" href="/admin/product">Danh sách</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/ASM/product/create">Thêm</a>
+                                    <a class="nav-link" href="/admin/product/create">Thêm</a>
                                 </li>
                             </ul>
                         </div>

@@ -21,7 +21,7 @@
                     </div>
                     @endif
 
-                    <form method="POST" action="/ASM/product/update/{{ $product['id'] }}" enctype="multipart/form-data">
+                    <form method="POST" action="/admin/product/update/{{ $product['id'] }}" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label class="form-label">Tên sản phẩm:</label>
                             <input type="text" name="name" class="form-control" value="{{ $product['name'] }}" required>
@@ -61,7 +61,7 @@
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success">Cập nhật</button>
-                            <a href="/ASM/product" class="btn btn-secondary">Quay lại</a>
+                            <a href="/admin/product" class="btn btn-secondary">Quay lại</a>
                         </div>
                     </form>
                 </div>

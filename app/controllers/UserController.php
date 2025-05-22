@@ -76,7 +76,7 @@ class UserController
         if (isset($result['error'])) {
             echo $this->blade->run('users.create', ['error' => $result['error']]);
         } else {
-            header("Location: /ASM/user");
+            header("Location: /admin/user");
             exit;
         }
     }
@@ -130,7 +130,7 @@ class UserController
                 'error' => $result['error']
             ]);
         } else {
-            header("Location: /ASM/user");
+            header("Location: /admin/user");
             exit;
         }
     }
@@ -150,7 +150,7 @@ class UserController
         if (isset($result['error'])) {
             echo "Lỗi: " . $result['error'];
         } else {
-            header("Location: /ASM/user");
+            header("Location: /admin/user");
             exit;
         }
     }

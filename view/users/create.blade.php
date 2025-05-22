@@ -20,7 +20,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="/ASM/user/store">
+                    <form method="POST" action="/admin/user/store">
                         <div class="mb-3">
                             <label class="form-label">Tên người dùng:</label>
                             <input type="text" name="name" class="form-control" >
@@ -46,7 +46,7 @@
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success">Tạo tài khoản</button>
-                            <a href="/ASM/user" class="btn btn-secondary">Quay lại</a>
+                            <a href="/admin/user" class="btn btn-secondary">Quay lại</a>
                         </div>
                     </form>
                 </div>

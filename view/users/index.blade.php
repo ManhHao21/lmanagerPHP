@@ -14,7 +14,7 @@
                                         <li class="breadcrumb-item"><a href="/" class="breadcrumb-link">Trang chủ</a>
                                         </li>
                                         <li class="breadcrumb-item active" aria-current="page">
-                                            <a href="/ASM/user" class="breadcrumb-link">Quản lý người dùng</a>
+                                            <a href="/admin/user" class="breadcrumb-link">Quản lý người dùng</a>
                                         </li>
                                     </ol>
                                 </nav>
@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="card w-100">
                         <div class="card-header flex">
-                            <form method="GET" action="/ASM/user" class="mb-3">
+                            <form method="GET" action="/admin/user" class="mb-3">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <input type="text" name="keyword" class="form-control"
@@ -40,11 +40,11 @@
                                     </div>
                                     <div class="col-md-3">
                                         <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                                        <a href="/ASM/user" class="btn btn-warning">Reset</a>
+                                        <a href="/admin/user" class="btn btn-warning">Reset</a>
                                     </div>
                                 </div>
                             </form>
-                            <a href="/ASM/user/create" class="btn btn-primary flex justify-content-end">Tạo mới</a>
+                            <a href="/admin/user/create" class="btn btn-primary flex justify-content-end">Tạo mới</a>
                         </d>
 
                         <div class="card-body p-0">
@@ -74,9 +74,9 @@
                                                 </td>
                                                 <td>{{ date('d-m-Y', strtotime($user['created_at'])) }}</td>
                                                 <td>
-                                                    <a href="/ASM/user/edit/{{ $user['id'] }}"
+                                                    <a href="/admin/user/edit/{{ $user['id'] }}"
                                                         class="btn btn-warning btn-sm">Sửa</a>
-                                                    <a href="/ASM/user/delete/{{ $user['id'] }}"
+                                                    <a href="/admin/user/delete/{{ $user['id'] }}"
                                                         class="btn btn-danger btn-sm"
                                                         onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
                                                 </td>
