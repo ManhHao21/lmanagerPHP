@@ -14,3 +14,4 @@ yarn-error.log
 *.log
 *.sqlite
 *.bak
+/cache
