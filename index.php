@@ -2,6 +2,7 @@
 require_once './vendor/autoload.php';
 require_once './app/helpers/index.php';
 
+use App\Controllers\SupplierController;
 use Dotenv\Dotenv;
 use App\Models\User;
 use Bramus\Router\Router;
@@ -9,6 +10,7 @@ use eftec\bladeone\BladeOne;
 use App\Middleware\AuthMiddleware;
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
+use App\Controllers\BrandController;
 use App\Controllers\ProductController;
 use App\Controllers\CategoryController;
 
@@ -134,6 +136,73 @@ $router->post('/admin/product/update/(\d+)', function ($id) use ($blade) {
 });
 $router->get('/admin/product/delete/(\d+)', function($id) use ($blade) {
     $controller = new ProductController($blade);
+    $controller->delete($id);
+});
+
+
+// danh sách thương hiệu
+$router->get('/admin/brand', function () use ($blade) {
+    $controller = new BrandController($blade);
+    $controller->index();
+});
+
+// tạo thương hiệu
+$router->get('/admin/brand/create', function () use ($blade) {
+    $controller = new BrandController($blade);
+    $controller->create();
+});
+
+// Lưu thương hiệu
+$router->post('/admin/brand/store', function () use ($blade) {
+    $controller = new BrandController($blade);
+    $controller->store();
+});
+
+$router->get('/admin/brand/edit/(\d+)', function ($id) use ($blade) {
+    $controller = new BrandController($blade);
+    $controller->edit($id);
+});
+
+$router->post('/admin/brand/update/(\d+)', function ($id) use ($blade) {
+    $controller = new BrandController($blade);
+    $controller->update($id);
+});
+$router->get('/admin/brand/delete/(\d+)', function($id) use ($blade) {
+    $controller = new BrandController($blade);
+    $controller->delete($id);
+});
+
+
+
+// danh sách nhà cung cấp
+$router->get('/admin/supplier', function () use ($blade) {
+    $controller = new SupplierController($blade);
+    $controller->index();
+});
+
+// tạo nhà cung cấp
+$router->get('/admin/supplier/create', function () use ($blade) {
+    $controller = new SupplierController($blade);
+    $controller->create();
+});
+
+// Lưu nhà cung cấp
+$router->post('/admin/supplier/store', function () use ($blade) {
+    $controller = new SupplierController($blade);
+    $controller->store();
+});
+
+$router->get('/admin/supplier/edit/(\d+)', function ($id) use ($blade) {
+    $controller = new SupplierController($blade);
+    $controller->edit($id);
+});
+
+$router->post('/admin/supplier/update/(\d+)', function ($id) use ($blade) {
+    $controller = new SupplierController($blade);
+    $controller->update($id);
+});
+$router->get('/admin/supplier/delete/(\d+)', function($id) use ($blade) {
+    $controller = new SupplierController($blade);
     $controller->delete($id);
 });
 

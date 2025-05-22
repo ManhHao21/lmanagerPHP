@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Supplier;
 use eftec\bladeone\BladeOne;
 use Rakit\Validation\Validator;
 
@@ -12,11 +14,15 @@ class ProductController
     protected $blade;
     protected $productModel;
     protected $categoryModel;
+    protected $brandModel;
+    protected $supplierModel;
     public function __construct(BladeOne $blade)
     {
         $this->blade = $blade;
         $this->productModel = new Product();
         $this->categoryModel = new Category();
+        $this->brandModel = new Brand();
+        $this->supplierModel = new Supplier();
     }
 
     // ✅ Hiển thị danh sách người dùng
@@ -45,12 +51,14 @@ class ProductController
 
     public function create()
     {
-        // Lấy danh sách danh mục từ database
         $categories = $this->categoryModel->getAllCategories();
+        $brands = $this->brandModel->getAllBrands();
+        $suppliers = $this->supplierModel->getAllSupplier();
 
-        // Trả về view tạo sản phẩm
-        echo $this->blade->run('product.create', ['categories' => $categories]);
+        echo $this->blade->run('product.create', compact('categories', 'brands', 'suppliers'));
     }
+
+
 
 
     public function store()
@@ -59,31 +67,68 @@ class ProductController
             die("Phương thức không hợp lệ!");
         }
 
-        // Khởi tạo Validator của Rakit
         $validator = new Validator();
 
-        // Lấy dữ liệu từ form
+        // Xử lý các trường số: nếu rỗng thì gán null hoặc 0, ép kiểu số đúng
+        $hotValue = (isset($_POST['Hot']) && $_POST['Hot'] == '1') ? 1 : 0;
+
+        // PromotionPrice: nếu rỗng thì null (để tránh lỗi 'Incorrect decimal value')
+        $promotionPriceRaw = trim($_POST['PromotionPrice'] ?? '');
+        $promotionPrice = $promotionPriceRaw === '' ? null : (float) $promotionPriceRaw;
+
+        $vatRaw = trim($_POST['Vat'] ?? '');
+        $vat = $vatRaw === '' ? null : (int) $vatRaw;
+
+        $quantityRaw = trim($_POST['Quantity'] ?? '');
+        $quantity = $quantityRaw === '' ? null : (int) $quantityRaw;
+
+        $statusRaw = trim($_POST['status'] ?? '');
+        $status = $statusRaw === '' ? null : (int) $statusRaw;
+
+        $brandIdRaw = trim($_POST['BrandID'] ?? '');
+        $brandId = $brandIdRaw === '' ? null : (int) $brandIdRaw;
+
+        $supplierIdRaw = trim($_POST['SupplierID'] ?? '');
+        $supplierId = $supplierIdRaw === '' ? null : (int) $supplierIdRaw;
+
+        $viewCountRaw = trim($_POST['ViewCount'] ?? '');
+        $viewCount = $viewCountRaw === '' ? 0 : (int) $viewCountRaw;
+
         $data = [
             'name' => trim($_POST['name'] ?? ''),
             'price' => trim($_POST['price'] ?? ''),
+            'PromotionPrice' => $promotionPrice,
+            'Vat' => $vat,
+            'Quantity' => $quantity,
+            'Hot' => $hotValue,
             'category_id' => trim($_POST['category_id'] ?? ''),
             'description' => trim($_POST['description'] ?? ''),
-            'image' => $_FILES['image'] ?? null
+            'Detail' => trim($_POST['Detail'] ?? ''),
+            'slug' => trim($_POST['slug'] ?? ''),
+            'status' => $status,
+            'ViewCount' => $viewCount,
+            'BrandID' => $brandId,
+            'SupplierID' => $supplierId,
+            'image' => null,
         ];
 
-        // Xác định quy tắc kiểm tra
         $validation = $validator->make($data, [
             'name' => 'required',
             'price' => 'required|numeric|min:1',
             'category_id' => 'required|integer',
             'description' => 'required',
-            'image' => 'uploaded_file:0,2048K,png,jpg,jpeg' // Ảnh max 2MB, chỉ nhận jpg, png, jpeg
+            'PromotionPrice' => 'nullable|numeric',
+            'Vat' => 'nullable|integer',
+            'Quantity' => 'nullable|integer',
+            'Hot' => 'nullable|integer',
+            'status' => 'nullable|integer',
+            'BrandID' => 'nullable|integer',
+            'SupplierID' => 'nullable|integer',
+            'image' => 'uploaded_file:0,2048K,png,jpg,jpeg'
         ]);
 
-        // Chạy kiểm tra
         $validation->validate();
 
-        // Nếu có lỗi, hiển thị thông báo lỗi
         if ($validation->fails()) {
             $errors = $validation->errors()->all();
             foreach ($errors as $error) {
@@ -92,23 +137,21 @@ class ProductController
             return;
         }
 
-        // Xử lý upload ảnh nếu có
-        $imagePath = null;
+        // Xử lý upload ảnh
         if (!empty($_FILES['image']['name']) && $_FILES['image']['error'] === 0) {
             $uploadDir = 'uploads/';
             if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true); // Tạo thư mục nếu chưa tồn tại
+                mkdir($uploadDir, 0777, true);
             }
             $imageName = time() . '_' . basename($_FILES['image']['name']);
             $uploadFile = $uploadDir . $imageName;
 
             if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
-                $imagePath = $uploadFile;
+                $data['image'] = $imageName;
             }
         }
 
-        // Gọi hàm lưu sản phẩm vào database
-        $result = $this->productModel->createProduct($data['name'], $data['price'], $data['category_id'], $data['description'], $imageName);
+        $result = $this->productModel->createProduct($data);
 
         if (isset($result['error'])) {
             echo "Lỗi: " . $result['error'];
@@ -116,6 +159,7 @@ class ProductController
             header("Location: /admin/product");
         }
     }
+
 
     public function delete($id)
     {
@@ -134,58 +178,65 @@ class ProductController
 
     public function edit($id)
     {
-        // Lấy sản phẩm theo ID
         $product = $this->productModel->getProductById($id);
-        // Lấy danh sách danh mục
-        $categories = $this->categoryModel->getAllCategories();
-
-        // Kiểm tra nếu không tìm thấy sản phẩm
         if (!$product) {
             $_SESSION['error'] = "Sản phẩm không tồn tại.";
             header("Location: /admin/product");
             exit;
         }
+        $categories = $this->categoryModel->getAllCategories();
+        $brands = $this->brandModel->getAllBrands();
+        $suppliers = $this->supplierModel->getAllSupplier();
 
-        // Truyền dữ liệu sang view
-        echo $this->blade->run('product.edit', ['categories' => $categories, 'product' => $product]);
+        echo $this->blade->run('product.edit', compact('product', 'categories', 'brands', 'suppliers'));
     }
 
-
-    public function update($id) // Lấy ID từ URL
+    public function update($id)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['name'];
-            $category_id = $_POST['category_id'];
-            $price = $_POST['price'];
-            $description = $_POST['description'];
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            die("Phương thức không hợp lệ!");
+        }
 
-            // Lấy thông tin sản phẩm hiện tại
-            $currentProduct = $this->productModel->getProductById($id);
-            if (!$currentProduct) {
-                $_SESSION['error'] = "Sản phẩm không tồn tại!";
-                header("Location: /admin/product");
-                exit;
-            }
-
-            // Xử lý upload ảnh
-            $image = $currentProduct['image']; // Giữ ảnh cũ mặc định
-            if (!empty($_FILES['image']['name'])) {
-                $imageName = time() . '_' . $_FILES['image']['name'];
-                move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $imageName);
-                $image = $imageName;
-            }
-
-            // Cập nhật sản phẩm
-            $result = $this->productModel->updateProduct($id, $name, $category_id, $price, $description, $image);
-
-            if ($result['success']) {
-                $_SESSION['success'] = $result['message'];
-            } else {
-                $_SESSION['error'] = $result['message'] ?? "Cập nhật sản phẩm thất bại!";
-            }
-
+        $currentProduct = $this->productModel->getProductById($id);
+        if (!$currentProduct) {
+            $_SESSION['error'] = "Sản phẩm không tồn tại!";
             header("Location: /admin/product");
             exit;
         }
+
+        $data = [
+            'name' => trim($_POST['name'] ?? $currentProduct['name']),
+            'price' => trim($_POST['price'] ?? $currentProduct['price']),
+            'PromotionPrice' => trim($_POST['PromotionPrice'] ?? $currentProduct['PromotionPrice']),
+            'Vat' => trim($_POST['Vat'] ?? $currentProduct['Vat']),
+            'Quantity' => trim($_POST['Quantity'] ?? $currentProduct['Quantity']),
+            'Hot' => isset($_POST['Hot']) ? 1 : ($currentProduct['Hot'] ?? 0),
+            'category_id' => trim($_POST['category_id'] ?? $currentProduct['category_id']),
+            'description' => trim($_POST['description'] ?? $currentProduct['description']),
+            'Detail' => trim($_POST['Detail'] ?? $currentProduct['Detail']),
+            'slug' => trim($_POST['slug'] ?? $currentProduct['slug']),
+            'status' => trim($_POST['status'] ?? $currentProduct['status']),
+            'ViewCount' => trim($_POST['ViewCount'] ?? $currentProduct['ViewCount']),
+            'BrandID' => trim($_POST['BrandID'] ?? $currentProduct['BrandID']),
+            'SupplierID' => trim($_POST['SupplierID'] ?? $currentProduct['SupplierID']),
+            'image' => $currentProduct['image'],
+        ];
+
+        if (!empty($_FILES['image']['name']) && $_FILES['image']['error'] === 0) {
+            $imageName = time() . '_' . basename($_FILES['image']['name']);
+            move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $imageName);
+            $data['image'] = $imageName;
+        }
+
+        $result = $this->productModel->updateProduct($id, $data);
+
+        if ($result['success']) {
+            $_SESSION['success'] = $result['message'];
+        } else {
+            $_SESSION['error'] = $result['message'] ?? "Cập nhật sản phẩm thất bại!";
+        }
+
+        header("Location: /admin/product");
+        exit;
     }
 }

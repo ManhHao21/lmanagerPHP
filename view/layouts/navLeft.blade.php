@@ -55,7 +55,38 @@
                             </ul>
                         </div>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false"
+                            data-target="#brand-3" aria-controls="brand-3">
+                            <i class="fa fa-fw fa-box"></i>Quản lý thương hiệu <span class="badge badge-success">6</span>
+                        </a>
+                        <div id="brand-3" class="collapse brand">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/brand">Danh sách</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/brand/create">Thêm</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false"
+                            data-target="#supplier-3" aria-controls="supplier-3">
+                            <i class="fa fa-fw fa-box"></i>Quản lý nhà cung cấp <span class="badge badge-success">6</span>
+                        </a>
+                        <div id="supplier-3" class="collapse supplier">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/supplier">Danh sách</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/supplier/create">Thêm</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </nav>
